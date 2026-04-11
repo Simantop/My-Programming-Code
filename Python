@@ -1,1 +1,83 @@
-#
+class Product:
+    def __init__(self, product_id, name, price, stock):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+        self.stock = stock
+
+    def update_stock(self, quantity):
+        if self.stock + quantity >= 0:
+            self.stock += quantity
+            return True
+        return False
+
+    def get_details(self):
+        return f"ID: {self.product_id} | Name: {self.name} | Price: ${self.price:.2f} | Stock: {self.stock}"
+
+class Inventory:
+    def __init__(self):
+        self.products = {}
+
+    def add_product(self, product):
+        self.products[product.product_id] = product
+
+    def remove_product(self, product_id):
+        if product_id in self.products:
+            del self.products[product_id]
+
+    def get_product(self, product_id):
+        return self.products.get(product_id)
+
+    def display_inventory(self):
+        print("\n--- Current Inventory ---")
+        for product in self.products.values():
+            print(product.get_details())
+        print("------------------------\n")
+
+class Store:
+    def __init__(self, name):
+        self.name = name
+        self.inventory = Inventory()
+        self.total_sales = 0.0
+
+    def restock(self, product_id, quantity):
+        product = self.inventory.get_product(product_id)
+        if product:
+            product.update_stock(quantity)
+            print(f"Restocked {quantity} units of {product.name}.")
+
+    def make_sale(self, product_id, quantity):
+        product = self.inventory.get_product(product_id)
+        if product and product.update_stock(-quantity):
+            sale_amount = product.price * quantity
+            self.total_sales += sale_amount
+            print(f"Sold {quantity} units of {product.name} for ${sale_amount:.2f}.")
+        else:
+            print(f"Sale failed: Insufficient stock or product not found.")
+
+    def report_finances(self):
+        print(f"Total Sales for {self.name}: ${self.total_sales:.2f}")
+
+def main():
+    my_store = Store("Tech Haven")
+    
+    p1 = Product(101, "Laptop", 1200.0, 10)
+    p2 = Product(102, "Smartphone", 800.0, 20)
+    p3 = Product(103, "Headphones", 150.0, 50)
+    
+    my_store.inventory.add_product(p1)
+    my_store.inventory.add_product(p2)
+    my_store.inventory.add_product(p3)
+    
+    my_store.inventory.display_inventory()
+    
+    my_store.make_sale(101, 2)
+    my_store.make_sale(103, 5)
+    my_store.restock(102, 10)
+    
+    my_store.inventory.display_inventory()
+    my_store.report_finances()
+
+if __name__ == "__main__":
+    main()
+
