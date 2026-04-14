@@ -11,3 +11,12 @@ async fn main() {
 async fn handler() -> &'static str {
     "Hello, World!"
 }
+use axum::{routing::get, Router};
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new().route("/", get(|| async { "Hello from the Rust Backend!" }));
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
+}
