@@ -79,5 +79,6 @@ def main():
     my_store.report_finances()
 
 if __name__ == "__main__":
-    main()
+    main() 
+int
 
