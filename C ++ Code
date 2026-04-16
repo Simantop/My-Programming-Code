@@ -1,1 +1,91 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+class Student {
+public:
+    int id;
+    string name;
+    float grade;
+
+    Student(int i, string n, float g) : id(i), name(n), grade(g) {}
+
+    void display() {
+        cout << "ID: " << id << " | Name: " << name << " | Grade: " << grade << endl;
+    }
+};
+
+class ManagementSystem {
+private:
+    vector<Student> students;
+    string filename = "students.txt";
+
+public:
+    void addStudent() {
+        int id;
+        string name;
+        float grade;
+        cout << "Enter ID: "; cin >> id;
+        cout << "Enter Name: "; cin.ignore(); getline(cin, name);
+        cout << "Enter Grade: "; cin >> grade;
+        students.emplace_back(id, name, grade);
+    }
+
+    void showAll() {
+        if (students.empty()) {
+            cout << "No records found." << endl;
+            return;
+        }
+        for (auto &s : students) {
+            s.display();
+        }
+    }
+
+    void saveToFile() {
+        ofstream outFile(filename);
+        for (const auto &s : students) {
+            outFile << s.id << "," << s.name << "," << s.grade << endl;
+        }
+        outFile.close();
+        cout << "Saved successfully." << endl;
+    }
+
+    void loadFromFile() {
+        ifstream inFile(filename);
+        if (!inFile) return;
+        students.clear();
+        string line, name;
+        int id;
+        float grade;
+        while (inFile >> id) {
+            inFile.ignore();
+            getline(inFile, name, ',');
+            inFile >> grade;
+            students.emplace_back(id, name, grade);
+        }
+        inFile.close();
+    }
+};
+
+int main() {
+    ManagementSystem ms;
+    ms.loadFromFile();
+    int choice;
+
+    while (true) {
+        cout << "\n1. Add Student\n2. Show All\n3. Save\n4. Exit\nChoice: ";
+        cin >> choice;
+
+        if (choice == 1) ms.addStudent();
+        else if (choice == 2) ms.showAll();
+        else if (choice == 3) ms.saveToFile();
+        else if (choice == 4) break;
+        else cout << "Invalid option." << endl;
+    }
+
+    return 0;
+}
 
