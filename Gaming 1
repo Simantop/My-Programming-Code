@@ -28,3 +28,50 @@ int main() {
     return 0;
 }
 
+using System;
+
+class Program {
+    // 3x3 grid represented by an array
+    static char[] board = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    static int player = 1; // 1 for Player X, 2 for Player O
+
+    static void Main(string[] args) {
+        int choice;
+        int status = 0; // 0: running, 1: win, -1: draw
+
+        do {
+            Console.Clear();
+            DrawBoard();
+            Console.WriteLine($"Player {(player == 1 ? "X" : "O")}, enter a number: ");
+            
+            if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 9 && board[choice - 1] != 'X' && board[choice - 1] != 'O') {
+                board[choice - 1] = (player == 1) ? 'X' : 'O';
+                status = CheckWin();
+                player = (player == 1) ? 2 : 1;
+            }
+        } while (status == 0);
+
+        Console.Clear();
+        DrawBoard();
+        Console.WriteLine(status == 1 ? "We have a winner!" : "It's a draw!");
+    }
+
+    static void DrawBoard() {
+        Console.WriteLine($" {board[0]} | {board[1]} | {board[2]} ");
+        Console.WriteLine("-----------");
+        Console.WriteLine($" {board[3]} | {board[4]} | {board[5]} ");
+        Console.WriteLine("-----------");
+        Console.WriteLine($" {board[6]} | {board[7]} | {board[8]} ");
+    }
+
+    static int CheckWin() {
+        // Winning patterns: Rows, Columns, Diagonals
+        int[,] patterns = { {0,1,2}, {3,4,5}, {6,7,8}, {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6} };
+        for (int i = 0; i < 8; i++) {
+            if (board[patterns[i,0]] == board[patterns[i,1]] && board[patterns[i,1]] == board[patterns[i,2]]) return 1;
+        }
+        return Array.Exists(board, c => c != 'X' && c != 'O') ? 0 : -1;
+    }
+}
+
+
