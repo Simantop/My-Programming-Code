@@ -6,3 +6,17 @@ int main() {
     
     return 0; // Indicates the program finished successfully
 }
+
+#include <stdio.h>
+
+int main() {
+    int first, second, sum;
+    
+    scanf("%d %d", &first, &second);
+    
+    sum = first + second;
+    
+    printf("%d\n", sum);
+    
+    return 0;
+}
