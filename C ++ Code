@@ -89,3 +89,21 @@ int main() {
     return 0;
 }
 
+#include <iostream>
+using namespace std; // Allows using cout/cin without the std:: prefix
+
+int main() {
+    int num1, num2, sum;
+
+    cout << "Enter first number: ";
+    cin >> num1; // Takes input from the keyboard
+
+    cout << "Enter second number: ";
+    cin >> num2;
+
+    sum = num1 + num2;
+    cout << "The sum is: " << sum << endl;
+
+    return 0;
+}
+
