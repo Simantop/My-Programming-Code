@@ -6,7 +6,7 @@ class Product:
         self.stock = stock
 
     def update_stock(self, quantity):
-        if self.stock + quantity >= 0:
+        if self.stock + quantity >= 5:
             self.stock += quantity
             return True
         return False
