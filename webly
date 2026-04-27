@@ -1,0 +1,37 @@
+[dependencies]
+rocket = { version = "0.5.0", features = ["json"] }
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+
+#[macro_use] extern crate rocket;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct PriceResponse {
+    bitcoin: BitcoinPrice,
+}
+
+#[derive(Deserialize)]
+struct BitcoinPrice {
+    usd: f64,
+}
+
+async fn get_btc_price() -> Result<f64, reqwest::Error> {
+    let url = "https://coingecko.com";
+    let resp = reqwest::get(url).await?.json::<PriceResponse>().await?;
+    Ok(resp.bitcoin.usd)
+}
+
+#[get("/")]
+async fn index() -> String {
+    match get_btc_price().await {
+        Ok(price) => format!("<h1>Current Bitcoin Price</h1><p>${} USD</p>", price),
+        Err(_) => "Error fetching price".to_string(),
+    }
+}
+
+#[launch]
+fn rocket() -> _ {
+    rocket::build().mount("/", routes![index])
+}
