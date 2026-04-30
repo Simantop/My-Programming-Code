@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <windows.h>
+#include <time.h>
+
+int main() {
+    int carPos = 1;
+    int obsPos = 1;
+    int obsY = 0;
+    int score = 0;
+    char input;
+
+    srand(time(NULL));
+
+    while (1) {
+        system("cls");
+
+        for (int i = 0; i < 10; i++) {
+            printf("|");
+            if (i == obsY) {
+                if (obsPos == 0) printf("X  ");
+                else if (obsPos == 1) printf(" X ");
+                else printf("  X");
+            } else if (i == 9) {
+                if (carPos == 0) printf("A  ");
+                else if (carPos == 1) printf(" A ");
+                else printf("  A");
+            } else {
+                printf("   ");
+            }
+            printf("|\n");
+        }
+
+        printf("Score: %d\n", score);
+
+        if (obsY == 9 && obsPos == carPos) {
+            printf("Game Over!\n");
+            break;
+        }
+
+        if (kbhit()) {
+            input = getch();
+            if (input == 'a' && carPos > 0) carPos--;
+            if (input == 'd' && carPos < 2) carPos++;
+            if (input == 'q') break;
+        }
+
+        obsY++;
+        if (obsY > 9) {
+            obsY = 0;
+            obsPos = rand() % 3;
+            score++;
+        }
+
+        Sleep(100);
+    }
+
+    return 0;
+}
