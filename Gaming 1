@@ -37,7 +37,7 @@ class Program {
 
     static void Main(string[] args) {
         int choice;
-        int status = 0; // 0: running, 1: win, -1: draw
+        int status = 0; // 10: running, 1: win, -1: draw
 
         do {
             Console.Clear();
