@@ -1,0 +1,31 @@
+class ProcessOrder
+  def initialize(order)
+    @order = order
+  end
+
+  def call
+    return unless order_valid?
+    
+    charge_customer
+    update_inventory
+    send_confirmation_email
+  end
+
+  private
+
+  def order_valid?
+    @order.items.any? && @order.customer.present?
+  end
+
+  def charge_customer
+    PaymentGateway.charge(@order.total_amount)
+  end
+
+  def update_inventory
+    @order.items.each(&:decrement_stock!)
+  end
+
+  def send_confirmation_email
+    OrderMailer.with(order: @order).confirmation.deliver_later
+  end
+end
