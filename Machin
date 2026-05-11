@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Account {
+private:
+    string name;
+    int pin;
+    double balance;
+
+public:
+    Account(string n, int p, double b) : name(n), pin(p), balance(b) {}
+
+    bool validatePin(int p) {
+        return pin == p;
+    }
+
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Successfully deposited $" << amount << endl;
+    }
+
+    bool withdraw(double amount) {
+        if (amount > balance) {
+            cout << "Insufficient funds!" << endl;
+            return false;
+        }
+        balance -= amount;
+        cout << "Successfully withdrew $" << amount << endl;
+        return true;
+    }
+
+    void checkBalance() {
+        cout << "Current Balance: $" << balance << endl;
+    }
+
+    string getName() {
+        return name;
+    }
+};
+
+int main() {
+    Account myAcc("John Doe", 1234, 1000.0);
+    int enteredPin, choice;
+    double amount;
+
+    cout << "--- Welcome to the ATM ---" << endl;
+    cout << "Enter PIN: ";
+    cin >> enteredPin;
+
+    if (!myAcc.validatePin(enteredPin)) {
+        cout << "Invalid PIN. Exiting..." << endl;
+        return 0;
+    }
+
+    do {
+        cout << "\n1. Check Balance\n2. Deposit\n3. Withdraw\n4. Exit\nChoice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                myAcc.checkBalance();
+                break;
+            case 2:
+                cout << "Enter deposit amount: ";
+                cin >> amount;
+                myAcc.deposit(amount);
+                break;
+            case 3:
+                cout << "Enter withdrawal amount: ";
+                cin >> amount;
+                myAcc.withdraw(amount);
+                break;
+            case 4:
+                cout << "Thank you for using our ATM, " << myAcc.getName() << "!" << endl;
+                break;
+            default:
+                cout << "Invalid choice." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
