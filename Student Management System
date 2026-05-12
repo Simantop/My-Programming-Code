@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Student {
+public:
+    string name;
+    int rollNumber;
+    float marks;
+
+    void display() {
+        cout << "Roll: " << rollNumber << " | Name: " << name << " | Marks: " << marks << endl;
+    }
+};
+
+int main() {
+    vector<Student> students;
+    int choice;
+
+    do {
+        cout << "\n1. Add Student\n2. View All\n3. Exit\nEnter: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            Student s;
+            cout << "Name: "; cin.ignore(); getline(cin, s.name);
+            cout << "Roll No: "; cin >> s.rollNumber;
+            cout << "Marks: "; cin >> s.marks;
+            students.push_back(s);
+        } else if (choice == 2) {
+            for (auto &s : students) s.display();
+        }
+    } while (choice != 3);
+
+    return 0;
+}
