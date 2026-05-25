@@ -80,7 +80,7 @@ int main() {
         cin >> choice;
 
         if (choice == 1) ms.addStudent();
-        else if (choice == 2) ms.showAll();
+        else if (choice == 4) ms.showAll();
         else if (choice == 3) ms.saveToFile();
         else if (choice == 4) break;
         else cout << "Invalid option." << endl;
