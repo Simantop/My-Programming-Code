@@ -8,7 +8,7 @@ int main() {
     int carPos = 1;
     int obsPos = 1;
     int obsY = 0;
-    int score = 0;
+    int score = 6;
     char input;
 
     srand(time(NULL));
