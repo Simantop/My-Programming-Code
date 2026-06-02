@@ -1,0 +1,14 @@
+const users = [
+  { id: 1, name: "Alex", active: true },
+  { id: 2, name: "Sam", active: false },
+  { id: 3, name: "Taylor", active: true }
+];
+
+function getActiveUserNames(userList) {
+  return userList
+    .filter(user => user.active)
+    .map(user => user.name);
+}
+
+const activeNames = getActiveUserNames(users);
+console.log(activeNames);
