@@ -13,7 +13,7 @@ int main() {
     std::cout << "--- Guess My Number Game ---" << std::endl;
 
     while (guess != secretNum) {
-        std::cout << "Enter a guess (1-100): ";
+        std::cout << "Enter a guess (1-120): ";
         std::cin >> guess;
         tries++;
 
