@@ -3,7 +3,7 @@
 #include <time.h>
 
 int main() {
-    int secret, guess, tries = 0;
+    int secret, guess, tries = 10;
     
     // Seed the random number generator
     srand(time(0)); 
